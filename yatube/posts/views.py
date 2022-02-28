@@ -1,14 +1,14 @@
 from multiprocessing import context
 from re import template
 from django.shortcuts import render
+from .models import Post
 
 def index(request):
-    template = 'posts/index.html'
-    title = 'Это главная страница проекта Yatube'
+    posts = Post.objects.order_by('-pub_date')[:10]
     context = {
-        'title': title,
+        'posts': posts,
     }
-    return render(request, template, context)
+    return render(request, 'posts/index.html', context)
 
 
 def group_posts(request, any_slug):
